@@ -1,0 +1,574 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>نما</title>
+<style>
+/* التخطيط: تطبيق جوال في المنتصف، ولوحة تعريفية بجانبه على الشاشات العريضة */
+:root{
+  --page:#DCE9E0; --bg:#EDF4EE; --surface:#FFFFFF; --surface-2:#F3F8F4;
+  --ink:#15261B; --ink-2:#506456; --line:#D8E5DB;
+  --leaf:#2D7B4E; --leaf-deep:#1E5A38; --leaf-soft:#DCEEE2; --on-leaf:#FFFFFF;
+  --water:#2C7DBF; --water-soft:#DFEDF8;
+  --heat:#BF4F1C; --heat-soft:#FBE6DB;
+  --sun:#8F6100; --sun-soft:#F8EBC7;
+  --bad:#B8342A; --bad-soft:#FADDD8;
+  --shadow:0 20px 56px rgba(28,66,42,.16);
+  --f-display:'Readex Pro','IBM Plex Sans Arabic',Tahoma,system-ui,sans-serif;
+  --f-body:'IBM Plex Sans Arabic',Tahoma,system-ui,sans-serif;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --page:#09110C; --bg:#0F1A14; --surface:#17241C; --surface-2:#1C2B22;
+    --ink:#E6F1E9; --ink-2:#9DB2A3; --line:#2A3C30;
+    --leaf:#5CC08A; --leaf-deep:#86D8AB; --leaf-soft:#1F3A2B; --on-leaf:#0A1710;
+    --water:#6DB3EC; --water-soft:#1B2F42;
+    --heat:#F28C5F; --heat-soft:#3E281B;
+    --sun:#EBBB48; --sun-soft:#3A3014;
+    --bad:#F28375; --bad-soft:#40201C;
+    --shadow:0 20px 56px rgba(0,0,0,.5);
+    color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --page:#09110C; --bg:#0F1A14; --surface:#17241C; --surface-2:#1C2B22;
+  --ink:#E6F1E9; --ink-2:#9DB2A3; --line:#2A3C30;
+  --leaf:#5CC08A; --leaf-deep:#86D8AB; --leaf-soft:#1F3A2B; --on-leaf:#0A1710;
+  --water:#6DB3EC; --water-soft:#1B2F42;
+  --heat:#F28C5F; --heat-soft:#3E281B;
+  --sun:#EBBB48; --sun-soft:#3A3014;
+  --bad:#F28375; --bad-soft:#40201C;
+  --shadow:0 20px 56px rgba(0,0,0,.5);
+  color-scheme:dark;
+}
+*,*::before,*::after{box-sizing:border-box}
+html,body{height:100%}
+html{background:var(--page)}
+[hidden]{display:none!important}
+body{background:var(--page);color:var(--ink);font-family:var(--f-body);font-size:15px;line-height:1.55;padding:0 16px;-webkit-text-size-adjust:100%;text-size-adjust:100%}
+button,input,select{font:inherit;color:inherit}
+button{-webkit-appearance:none;appearance:none;-webkit-tap-highlight-color:transparent}
+:focus-visible{outline:2px solid var(--leaf);outline-offset:2px}
+.ltr{direction:ltr;unicode-bidi:isolate;display:inline-block}
+
+.stage{height:100%;display:flex;align-items:center;justify-content:center;gap:64px;padding-block:12px}
+
+/* لوحة التعريف */
+.intro{display:none;max-width:330px;min-width:0}
+.intro .mark{width:64px;height:64px;color:var(--leaf)}
+.intro h2{font-family:var(--f-display);font-size:56px;line-height:1.1;margin:8px 0 0;color:var(--leaf-deep);font-weight:700}
+.intro .tag{font-family:var(--f-display);font-size:19px;margin:6px 0 14px;font-weight:500}
+.intro p{color:var(--ink-2);margin:0 0 18px;max-width:34ch}
+.intro ul{list-style:none;margin:0 0 20px;padding:0;display:grid;gap:8px}
+.intro li{display:flex;gap:10px;align-items:center;font-weight:500}
+.intro li svg{width:18px;height:18px;color:var(--leaf);flex:none}
+.sensor{width:150px;height:auto;display:block}
+@media (min-width:920px){.intro{display:block}}
+@media (min-width:600px){.phone{flex-basis:480px;max-width:480px;max-height:900px}}
+
+/* الجوال */
+.phone{flex:0 1 420px;width:100%;max-width:420px;height:100%;max-height:840px;min-width:0;background:var(--bg);border:1px solid var(--line);border-radius:28px;overflow:hidden;position:relative;display:flex;flex-direction:column;box-shadow:var(--shadow)}
+.screen{flex:1;min-height:0;overflow-y:auto;padding:18px 16px 24px;display:flex;flex-direction:column;gap:14px}
+.tabs{display:grid;grid-template-columns:repeat(4,1fr);gap:2px;background:var(--surface);border-top:1px solid var(--line);padding:6px 6px 8px}
+.tab{background:none;border:0;color:var(--ink-2);display:flex;flex-direction:column;align-items:center;gap:2px;padding:6px 0;font-size:12px;border-radius:12px;cursor:pointer;position:relative}
+.tab svg{width:24px;height:24px}
+.tab[aria-current="page"]{color:var(--leaf-deep);font-weight:600;background:var(--leaf-soft)}
+.badge{position:absolute;top:2px;right:calc(50% + 4px);min-width:17px;height:17px;padding:0 4px;border-radius:9px;background:var(--bad);color:#fff;font-size:11px;line-height:17px;text-align:center;font-weight:600}
+:root[data-theme="dark"] .badge{color:#1b0a08}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .badge{color:#1b0a08}}
+
+.top{display:flex;align-items:center;justify-content:space-between;gap:10px}
+.brand{display:flex;align-items:center;gap:8px;font-family:var(--f-display);font-weight:700;font-size:22px;color:var(--leaf-deep)}
+.brand svg{width:30px;height:30px;color:var(--leaf)}
+.live{display:inline-flex;align-items:center;gap:6px;font-size:12px;color:var(--ink-2);background:var(--surface);border:1px solid var(--line);border-radius:999px;padding:3px 10px}
+.live i{width:8px;height:8px;border-radius:50%;background:var(--leaf);display:block}
+h1{font-family:var(--f-display);font-size:26px;line-height:1.25;margin:0;font-weight:600;text-wrap:balance}
+h2.sec{font-family:var(--f-display);font-size:16px;margin:0;font-weight:600}
+.sub{color:var(--ink-2);font-size:13px;margin:2px 0 0}
+.muted{color:var(--ink-2)}
+
+.card{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:14px;min-width:0}
+.btn{border:0;border-radius:12px;padding:10px 16px;cursor:pointer;background:var(--leaf);color:var(--on-leaf);font-weight:600;display:inline-flex;align-items:center;justify-content:center;gap:6px}
+.btn svg{width:18px;height:18px}
+.btn.ghost{background:var(--surface-2);color:var(--ink);border:1px solid var(--line)}
+.btn.danger{background:var(--bad-soft);color:var(--bad);border:1px solid var(--bad)}
+.btn.sm{padding:6px 12px;font-size:13px;border-radius:10px}
+.btn.block{width:100%}
+
+.chips{display:flex;gap:8px;overflow-x:auto;padding-bottom:2px;scrollbar-width:none}
+.chips::-webkit-scrollbar{display:none}
+.chip{flex:none;display:inline-flex;align-items:center;gap:7px;background:var(--surface);border:1px solid var(--line);border-radius:999px;padding:6px 12px;cursor:pointer;font-size:13px}
+.chip[aria-pressed="true"]{background:var(--leaf);color:var(--on-leaf);border-color:var(--leaf);font-weight:600}
+.dot{width:9px;height:9px;border-radius:50%;display:block;flex:none}
+.s-ok{background:var(--leaf)} .s-warn{background:var(--sun)} .s-bad{background:var(--bad)}
+.chip[aria-pressed="true"] .dot{box-shadow:0 0 0 2px var(--on-leaf)}
+
+.banner{display:flex;gap:12px;align-items:center;border-radius:16px;padding:14px;background:var(--leaf-soft);color:var(--ink)}
+.banner .ic{width:42px;height:42px;border-radius:50%;background:var(--surface);color:var(--leaf);display:grid;place-items:center;flex:none}
+.banner .ic svg{width:22px;height:22px}
+.banner .tx{flex:1;min-width:0}
+.banner strong{display:block;font-family:var(--f-display);font-size:16px;font-weight:600}
+.banner span.d{font-size:13px;color:var(--ink-2)}
+.banner.warn{background:var(--sun-soft)} .banner.warn .ic{color:var(--sun)}
+.banner.bad{background:var(--bad-soft)} .banner.bad .ic{color:var(--bad)}
+
+.rows{display:grid;gap:10px}
+.read{display:grid;grid-template-columns:auto 1fr auto;gap:2px 12px;align-items:center}
+.read .ic{grid-row:1 / span 2;width:40px;height:40px;border-radius:12px;display:grid;place-items:center}
+.read .ic svg{width:22px;height:22px}
+.read .lb{font-size:13px;color:var(--ink-2)}
+.read .st{font-size:13px;font-weight:600}
+.read .val{grid-row:1 / span 2;grid-column:3;font-family:var(--f-display);font-size:30px;font-weight:600;line-height:1}
+.read .val small{font-size:15px;font-weight:500;color:var(--ink-2);margin-right:1px}
+.read .mt{grid-column:1 / -1;margin-top:8px}
+.ic.water{background:var(--water-soft);color:var(--water)} .ic.heat{background:var(--heat-soft);color:var(--heat)} .ic.sun{background:var(--sun-soft);color:var(--sun)}
+.t-ok{color:var(--leaf-deep)} .t-low,.t-high{color:var(--heat)}
+.meter{position:relative;height:8px;border-radius:4px;background:var(--surface-2);border:1px solid var(--line);direction:ltr}
+.meter .band{position:absolute;top:0;bottom:0;background:var(--leaf-soft);border-left:1px solid var(--leaf);border-right:1px solid var(--leaf)}
+.meter .mark{position:absolute;top:-4px;width:6px;height:16px;border-radius:3px;background:var(--ink);transform:translateX(-50%);border:1px solid var(--surface)}
+.meter-cap{font-size:12px;color:var(--ink-2);margin-top:5px}
+
+.chart-head{display:flex;justify-content:space-between;align-items:baseline;gap:8px;margin-bottom:6px}
+.chart svg{display:block;width:100%;height:auto;direction:ltr}
+.legend{display:flex;flex-wrap:wrap;gap:6px 16px;font-size:12px;color:var(--ink-2);margin-top:6px}
+.legend i{display:inline-block;vertical-align:middle;margin-left:6px}
+.legend .sw-band{width:14px;height:10px;background:var(--leaf-soft);border:1px solid var(--leaf);border-radius:2px}
+.legend .sw-line{width:14px;height:3px;background:var(--water);border-radius:2px}
+
+.facts{display:grid;gap:0}
+.fact{display:flex;justify-content:space-between;gap:12px;padding:9px 0;border-bottom:1px solid var(--line)}
+.fact:last-of-type{border-bottom:0}
+.fact span:first-child{color:var(--ink-2)}
+.fact b{font-weight:600;text-align:end}
+.note{font-size:12px;color:var(--ink-2);text-align:center;margin:2px 0 0}
+
+.row-head{display:flex;align-items:center;justify-content:space-between;gap:10px}
+.pill{display:inline-flex;align-items:center;gap:6px;border-radius:999px;padding:2px 10px;font-size:12px;font-weight:600;background:var(--leaf-soft);color:var(--leaf-deep);white-space:nowrap}
+.pill.warn{background:var(--sun-soft);color:var(--sun)} .pill.bad{background:var(--bad-soft);color:var(--bad)}
+.plant h3{margin:0;font-family:var(--f-display);font-size:16px;font-weight:600}
+.plant .meta{font-size:13px;color:var(--ink-2);margin:2px 0 8px}
+.plant .nums{display:flex;flex-wrap:wrap;gap:4px 14px;font-size:13px;margin-bottom:10px}
+.plant .acts{display:flex;gap:8px}
+
+.alert{display:flex;gap:12px;align-items:flex-start}
+.alert .ic{width:40px;height:40px;border-radius:12px;display:grid;place-items:center;flex:none}
+.alert .ic svg{width:22px;height:22px}
+.alert .tx{flex:1;min-width:0}
+.alert h3{margin:0 0 2px;font-size:15px;font-family:var(--f-display);font-weight:600}
+.alert p{margin:0 0 10px;font-size:13px;color:var(--ink-2)}
+.alert .acts{display:flex;gap:8px;flex-wrap:wrap}
+.ic.kwater{background:var(--water-soft);color:var(--water)} .ic.ktemp{background:var(--heat-soft);color:var(--heat)} .ic.klight{background:var(--sun-soft);color:var(--sun)}
+.empty{text-align:center;padding:26px 14px;display:grid;gap:10px;justify-items:center}
+.empty svg{width:44px;height:44px;color:var(--leaf)}
+.empty h3{margin:0;font-family:var(--f-display);font-size:18px;font-weight:600}
+.empty p{margin:0;color:var(--ink-2);font-size:14px;max-width:32ch}
+.log{list-style:none;margin:0;padding:0}
+.log li{display:flex;justify-content:space-between;gap:10px;padding:9px 0;border-bottom:1px solid var(--line);font-size:14px}
+.log li:last-child{border-bottom:0}
+.log time{color:var(--ink-2);font-size:12px;white-space:nowrap}
+
+.set-row{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:10px 0;border-bottom:1px solid var(--line)}
+.set-row:last-child{border-bottom:0}
+.set-row .t{min-width:0}
+.set-row .t b{display:block;font-weight:500}
+.set-row .t span{font-size:12px;color:var(--ink-2)}
+.switch{flex:none;width:46px;height:26px;border-radius:13px;border:1px solid var(--line);background:var(--surface-2);position:relative;cursor:pointer;padding:0}
+.switch::after{content:"";position:absolute;top:2px;right:2px;width:20px;height:20px;border-radius:50%;background:var(--ink-2);transition:right .15s}
+.switch[aria-checked="true"]{background:var(--leaf);border-color:var(--leaf)}
+.switch[aria-checked="true"]::after{right:22px;background:var(--on-leaf)}
+.seg{display:inline-flex;border:1px solid var(--line);border-radius:10px;overflow:hidden;background:var(--surface-2)}
+.seg button{border:0;background:none;padding:6px 14px;cursor:pointer;font-size:13px}
+.seg button[aria-pressed="true"]{background:var(--leaf);color:var(--on-leaf);font-weight:600}
+.bar{height:8px;border-radius:4px;background:var(--surface-2);border:1px solid var(--line);overflow:hidden;width:90px;direction:ltr}
+.bar i{display:block;height:100%;background:var(--leaf)}
+
+.sheet-wrap{position:absolute;top:0;right:0;bottom:0;left:0;background:rgba(8,20,13,.5);display:flex;align-items:flex-end;z-index:5}
+.sheet{width:100%;background:var(--surface);border-radius:22px 22px 0 0;padding:18px 16px 20px;display:grid;gap:12px;max-height:100%;overflow-y:auto}
+.sheet h2{margin:0;font-family:var(--f-display);font-size:20px;font-weight:600}
+.field{display:grid;gap:5px}
+.field label{font-size:13px;font-weight:500}
+.field input,.field select{width:100%;font-size:16px;border:1px solid var(--line);background:var(--surface-2);border-radius:12px;padding:10px 12px}
+.field .err{font-size:12px;color:var(--bad);min-height:0}
+.hint{font-size:12px;color:var(--ink-2);background:var(--surface-2);border:1px solid var(--line);border-radius:12px;padding:8px 10px}
+.sheet .acts{display:flex;gap:8px}
+.sheet .acts .btn{flex:1}
+
+.toast{position:absolute;left:16px;right:16px;bottom:78px;background:var(--ink);color:var(--bg);border-radius:12px;padding:10px 14px;font-size:14px;text-align:center;z-index:6}
+@media (prefers-reduced-motion: reduce){.switch::after{transition:none}}
+</style>
+</head>
+<body>
+<div class="stage" dir="rtl" lang="ar">
+  <aside class="intro" aria-label="عن نما">
+    <svg class="mark" viewBox="0 0 64 64" aria-hidden="true"><path d="M32 6c-9 4-15 12-15 22 0 7 5 12 12 12 3-6 3-14 3-34z" fill="currentColor"/><path d="M34 12c10 1 18 8 18 18 0 8-6 13-14 12-4-6-5-19-4-30z" fill="currentColor" opacity=".55"/><path d="M12 58c8-8 16-8 40 0" fill="none" stroke="currentColor" stroke-width="5" stroke-linecap="round"/></svg>
+    <h2>نما</h2>
+    <p class="tag">شريكك الذكي لنباتاتك</p>
+    <p>جهاز صغير يوضع في التربة ويقيس الرطوبة والحرارة والإضاءة، وتطبيق يخبرك متى تسقي ومتى تحرّك النبتة.</p>
+    <ul>
+      <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12l5 5 9-10"/></svg>تنبيهات فورية عبر التطبيق</li>
+      <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12l5 5 9-10"/></svg>سهل الاستخدام</li>
+      <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12l5 5 9-10"/></svg>مناسب للمنازل والمكاتب</li>
+    </ul>
+    <svg class="sensor" viewBox="0 0 160 230" aria-label="جهاز نما الذكي">
+      <path d="M62 24a26 26 0 0 1 36 0" fill="none" stroke="#2D7B4E" stroke-width="3" stroke-linecap="round"/>
+      <path d="M70 34a14 14 0 0 1 20 0" fill="none" stroke="#2D7B4E" stroke-width="3" stroke-linecap="round"/>
+      <circle cx="80" cy="44" r="3" fill="#2D7B4E"/>
+      <rect x="40" y="56" width="80" height="116" rx="40" fill="var(--surface)" stroke="var(--line)" stroke-width="2"/>
+      <path d="M80 82c-10 4-14 12-12 22 8 0 14-6 14-14z" fill="#2D7B4E"/>
+      <path d="M82 90c6 0 12 4 12 12-6 2-12-2-12-12z" fill="#2D7B4E" opacity=".6"/>
+      <rect x="64" y="138" width="32" height="5" rx="2.5" fill="#5CC08A"/>
+      <path d="M62 172v52M80 172v52M98 172v52" stroke="var(--ink-2)" stroke-width="5" stroke-linecap="round" fill="none"/>
+    </svg>
+  </aside>
+
+  <main class="phone" id="app" aria-label="تطبيق نما">
+    <div class="screen" id="screen"></div>
+    <nav class="tabs" id="tabs" aria-label="التنقل"></nav>
+    <div class="sheet-wrap" id="sheet" hidden>
+      <div class="sheet" role="dialog" aria-modal="true" aria-labelledby="sheetTitle">
+        <h2 id="sheetTitle">إضافة نبات</h2>
+        <form id="addForm" novalidate style="display:grid;gap:12px">
+          <div class="field"><label for="f-name">اسم النبات</label><input id="f-name" type="text" maxlength="30" placeholder="مثال: بوتس غرفة النوم" autocomplete="off"><div class="err" id="f-err"></div></div>
+          <div class="field"><label for="f-species">نوع النبات</label><select id="f-species"></select></div>
+          <div class="hint" id="f-hint"></div>
+          <div class="field"><label for="f-place">مكان النبات</label><input id="f-place" type="text" maxlength="24" placeholder="مثال: الصالة" autocomplete="off"></div>
+          <div class="acts"><button class="btn" type="submit">إضافة النبات</button><button class="btn ghost" type="button" data-action="closeAdd">إلغاء</button></div>
+        </form>
+      </div>
+    </div>
+    <div class="toast" id="toast" hidden role="status"></div>
+  </main>
+</div>
+
+<script>
+(function(){
+  try{
+    var fl=document.createElement('link');
+    fl.rel='stylesheet';
+    fl.href='https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600&family=Readex+Pro:wght@400;500;600;700&display=swap';
+    document.head.appendChild(fl);
+  }catch(e){}
+  window.addEventListener('error',function(ev){
+    try{
+      var d=document.createElement('pre');
+      d.style.cssText='position:fixed;left:8px;right:8px;bottom:8px;z-index:99;background:#fff;color:#a00;font:12px monospace;padding:8px;border:1px solid #a00;direction:ltr;white-space:pre-wrap;margin:0';
+      d.textContent='Error: '+(ev.message||'unknown')+' (line '+(ev.lineno||'?')+')';
+      document.body.appendChild(d);
+    }catch(e2){}
+  });
+  document.documentElement.setAttribute('dir','rtl');
+  document.documentElement.setAttribute('lang','ar');
+  var $=function(s){return document.querySelector(s)};
+
+  var SPECIES={
+    pothos:{name:'بوتس',m:[40,70],t:[18,30],l:[25,65]},
+    cactus:{name:'صبار',m:[10,35],t:[15,38],l:[60,100]},
+    mint:{name:'نعناع',m:[50,80],t:[15,28],l:[40,80]},
+    basil:{name:'ريحان',m:[45,75],t:[18,32],l:[60,100]},
+    lily:{name:'زنبق السلام',m:[50,80],t:[18,28],l:[15,50]}
+  };
+
+  var I={
+    home:'<path d="M3 11l9-8 9 8v9a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z"/>',
+    plants:'<path d="M5 19c0-8 4-13 15-14 0 10-5 14-12 14-1 0-2 0-3 0z"/><path d="M5 19c3-5 6-8 10-10"/>',
+    bell:'<path d="M6 16v-5a6 6 0 0 1 12 0v5l2 2H4z"/><path d="M10 21h4"/>',
+    set:'<path d="M4 7h10M18 7h2M4 17h2M10 17h10"/><circle cx="16" cy="7" r="2"/><circle cx="8" cy="17" r="2"/>',
+    drop:'<path d="M12 3s6 6.5 6 11a6 6 0 0 1-12 0c0-4.5 6-11 6-11z"/>',
+    thermo:'<path d="M10 14V5a2 2 0 0 1 4 0v9a4 4 0 1 1-4 0z"/>',
+    sun:'<circle cx="12" cy="12" r="4"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M4.9 4.9l2.1 2.1M17 17l2.1 2.1M4.9 19.1L7 17M17 7l2.1-2.1"/>',
+    plus:'<path d="M12 5v14M5 12h14"/>',
+    alert:'<path d="M12 3l10 18H2z"/><path d="M12 10v5M12 18v.5"/>',
+    leaf:'<path d="M5 19c0-8 4-13 15-14 0 10-5 14-12 14-1 0-2 0-3 0z"/><path d="M5 19c3-5 6-8 10-10"/>'
+  };
+  function icon(n){return '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">'+I[n]+'</svg>'}
+  var LOGO='<svg viewBox="0 0 64 64" aria-hidden="true"><path d="M32 6c-9 4-15 12-15 22 0 7 5 12 12 12 3-6 3-14 3-34z" fill="currentColor"/><path d="M34 12c10 1 18 8 18 18 0 8-6 13-14 12-4-6-5-19-4-30z" fill="currentColor" opacity=".55"/><path d="M12 58c8-8 16-8 40 0" fill="none" stroke="currentColor" stroke-width="5" stroke-linecap="round"/></svg>';
+
+  function esc(s){return String(s).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]})}
+  function clamp(v,a,b){return Math.max(a,Math.min(b,v))}
+  function L(s){return '<span class="ltr">'+s+'</span>'}
+  function rng(seed){return function(){seed|=0;seed=seed+0x6D2B79F5|0;var t=Math.imul(seed^seed>>>15,1|seed);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296}}
+  function plural(n,one,two,few,many){n=Math.round(n);if(n===1)return one;if(n===2)return two;if(n>=3&&n<=10)return n+' '+few;return n+' '+many}
+  function dur(h){if(h<1)return plural(Math.max(1,h*60),'دقيقة','دقيقتين','دقائق','دقيقة');if(h<48)return plural(h,'ساعة','ساعتين','ساعات','ساعة');return plural(h/24,'يوم','يومين','أيام','يوماً')}
+  function ago(ms){var m=(Date.now()-ms)/60000;if(m<2)return 'قبل لحظات';return 'قبل '+dur(m/60)}
+  function lightLabel(v){return v<33?'ضعيفة':v<67?'متوسطة':'قوية'}
+
+  function makeHist(cur,seed){
+    var r=rng(seed*97+13),rate=0.6+r()*0.6,a=[];
+    for(var i=0;i<24;i++){a.push(clamp(cur+(23-i)*rate+(r()-.5)*2,3,98))}
+    a[23]=cur;return a;
+  }
+  function seedState(){
+    var now=Date.now(),H=3600e3;
+    var defs=[
+      ['p1','بوتس الصالة','pothos','الصالة',65,24,48,40],
+      ['p2','صبارة المكتب','cactus','المكتب',22,27,82,190],
+      ['p3','نعناع المطبخ','mint','المطبخ',34,25,55,70],
+      ['p4','ريحان الشرفة','basil','الشرفة',58,34,90,30]
+    ];
+    var plants=defs.map(function(d,i){return {id:d[0],name:d[1],species:d[2],place:d[3],moisture:d[4],temp:d[5],light:d[6],lastWaterAt:now-d[7]*H,hist:makeHist(d[4],i+3)}});
+    var log=plants.map(function(p){return {text:'تم ري '+p.name,at:p.lastWaterAt}}).sort(function(a,b){return b.at-a.at});
+    return {plants:plants,selected:'p1',tab:'home',log:log,settings:{unit:'c',alerts:{water:true,temp:true,light:true}},dismissed:{}};
+  }
+  var KEY='nama-app-v1';
+  function load(){try{var raw=localStorage.getItem(KEY);if(raw){var o=JSON.parse(raw);if(o&&Array.isArray(o.plants)&&o.settings&&o.settings.alerts)return o}}catch(e){}return null}
+  function save(){try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}}
+  var S=load()||seedState();
+  var UI={removing:null,resetting:false};
+
+  function temp(c){var f=S.settings.unit==='f';return L(Math.round(f?c*9/5+32:c)+'°'+(f?'ف':'م'))}
+  function current(){for(var i=0;i<S.plants.length;i++)if(S.plants[i].id===S.selected)return S.plants[i];return S.plants[0]||null}
+
+  function issues(p){
+    var sp=SPECIES[p.species],o=[],m=Math.round(p.moisture),t=p.temp,l=p.light;
+    if(m<sp.m[0])o.push({id:'water-low',kind:'water',level:m<sp.m[0]-10?'bad':'warn',short:'تحتاج ري',title:p.name+' تحتاج ري',body:'رطوبة التربة '+L(m+'%')+' والمناسب '+L(sp.m[0]+'–'+sp.m[1]+'%')+'.',action:'water'});
+    else if(m>sp.m[1])o.push({id:'water-high',kind:'water',level:'warn',short:'رطوبة عالية',title:'تربة '+p.name+' مبتلة',body:'الرطوبة '+L(m+'%')+' أعلى من '+L(sp.m[1]+'%')+'. أجّل الري حتى تجف التربة قليلاً.'});
+    if(t>sp.t[1])o.push({id:'heat',kind:'temp',level:'warn',short:'الجو حار',title:'الجو حار حول '+p.name,body:'الحرارة '+temp(t)+' والحد المناسب '+temp(sp.t[1])+'. انقلها إلى مكان أبرد أو ظلّلها.'});
+    else if(t<sp.t[0])o.push({id:'cold',kind:'temp',level:'warn',short:'الجو بارد',title:'الجو بارد حول '+p.name,body:'الحرارة '+temp(t)+' أقل من '+temp(sp.t[0])+'. أبعدها عن التكييف والنوافذ الباردة.'});
+    if(l<sp.l[0])o.push({id:'dark',kind:'light',level:'warn',short:'إضاءة ضعيفة',title:'إضاءة '+p.name+' ضعيفة',body:'الإضاءة '+lightLabel(l)+'. قرّبها من النافذة أو من مصدر ضوء.'});
+    else if(l>sp.l[1])o.push({id:'bright',kind:'light',level:'warn',short:'إضاءة قوية',title:'إضاءة '+p.name+' قوية',body:'الإضاءة '+lightLabel(l)+' أكثر من حاجة '+SPECIES[p.species].name+'. انقلها إلى ظل جزئي.'});
+    return o;
+  }
+  function level(is){for(var i=0;i<is.length;i++)if(is[i].level==='bad')return 'bad';return is.length?'warn':'ok'}
+  function activeAlerts(){
+    var out=[],keys={};
+    S.plants.forEach(function(p){issues(p).forEach(function(x){
+      var k=p.id+':'+x.id;keys[k]=1;
+      if(S.settings.alerts[x.kind]&&!S.dismissed[k])out.push({key:k,plant:p,issue:x});
+    })});
+    Object.keys(S.dismissed).forEach(function(k){if(!keys[k])delete S.dismissed[k]});
+    return out;
+  }
+
+  function meter(val,band,max){
+    var p=clamp(val/max*100,0,100),a=clamp(band[0]/max*100,0,100),b=clamp(band[1]/max*100,0,100);
+    return '<div class="meter"><span class="band" style="left:'+a+'%;width:'+(b-a)+'%"></span><span class="mark" style="left:'+p+'%"></span></div>';
+  }
+  function state(v,band){return v<band[0]?'low':v>band[1]?'high':'ok'}
+  var STX={ok:'ضمن المدى',low:'أقل من المناسب',high:'أعلى من المناسب'};
+  function reading(p){
+    var sp=SPECIES[p.species],m=Math.round(p.moisture),l=Math.round(p.light);
+    var sm=state(m,sp.m),st=state(p.temp,sp.t),sl=state(l,sp.l);
+    var labs=[];[sp.l[0],(sp.l[0]+sp.l[1])/2,sp.l[1]].forEach(function(v){var x=lightLabel(v);if(labs.indexOf(x)<0)labs.push(x)});
+    var f=S.settings.unit==='f';
+    return '<div class="card rows">'+
+      '<div class="read"><div class="ic water">'+icon('drop')+'</div><div class="lb">رطوبة التربة</div><div class="st t-'+sm+'">'+STX[sm]+'</div><div class="val">'+L(m+'<small>%</small>')+'</div><div class="mt">'+meter(m,sp.m,100)+'<div class="meter-cap">المناسب '+L(sp.m[0]+'–'+sp.m[1]+'%')+'</div></div></div>'+
+      '<div class="read"><div class="ic heat">'+icon('thermo')+'</div><div class="lb">درجة الحرارة</div><div class="st t-'+st+'">'+STX[st]+'</div><div class="val">'+L(Math.round(f?p.temp*9/5+32:p.temp)+'<small>°'+(f?'ف':'م')+'</small>')+'</div><div class="mt">'+meter(p.temp,sp.t,50)+'<div class="meter-cap">المناسب '+temp(sp.t[0])+' – '+temp(sp.t[1])+'</div></div></div>'+
+      '<div class="read"><div class="ic sun">'+icon('sun')+'</div><div class="lb">شدة الإضاءة</div><div class="st t-'+sl+'">'+STX[sl]+'</div><div class="val" style="font-size:22px">'+lightLabel(l)+'</div><div class="mt">'+meter(l,sp.l,100)+'<div class="meter-cap">المناسب: '+labs.join(' – ')+'</div></div></div>'+
+    '</div>';
+  }
+
+  function chart(p){
+    var sp=SPECIES[p.species],W=320,H=140,pl=28,pr=8,pt=8,pb=24,n=p.hist.length;
+    function x(i){return pl+i*(W-pl-pr)/(n-1)}
+    function y(v){return pt+(100-v)/100*(H-pt-pb)}
+    var pts=p.hist.map(function(v,i){return x(i).toFixed(1)+','+y(v).toFixed(1)});
+    var line='M'+pts.join(' L');
+    var area=line+' L'+x(n-1).toFixed(1)+','+y(0)+' L'+x(0).toFixed(1)+','+y(0)+' Z';
+    var g='';[0,50,100].forEach(function(v){
+      g+='<line x1="'+pl+'" x2="'+(W-pr)+'" y1="'+y(v)+'" y2="'+y(v)+'" stroke="var(--line)" stroke-width="1" stroke-dasharray="3 3"/>'+
+         '<text x="'+(pl-6)+'" y="'+(y(v)+3.5)+'" text-anchor="end" font-size="10" fill="var(--ink-2)">'+v+'</text>';
+    });
+    return '<div class="card chart"><div class="chart-head"><h2 class="sec">رطوبة التربة خلال 24 ساعة</h2></div>'+
+      '<svg viewBox="0 0 '+W+' '+H+'" role="img" aria-label="رسم يوضح رطوبة التربة خلال آخر 24 ساعة">'+
+      '<rect x="'+pl+'" y="'+y(sp.m[1])+'" width="'+(W-pl-pr)+'" height="'+(y(sp.m[0])-y(sp.m[1]))+'" fill="var(--leaf-soft)" stroke="none"/>'+g+
+      '<path d="'+area+'" fill="var(--water-soft)" opacity=".7" stroke="none"/>'+
+      '<path d="'+line+'" fill="none" stroke="var(--water)" stroke-width="2.2" stroke-linejoin="round" stroke-linecap="round"/>'+
+      '<circle cx="'+x(n-1)+'" cy="'+y(p.hist[n-1])+'" r="4.5" fill="var(--water)" stroke="var(--surface)" stroke-width="2"/>'+
+      '<text x="'+pl+'" y="'+(H-6)+'" font-size="10" fill="var(--ink-2)">قبل 24 س</text>'+
+      '<text x="'+(W-pr)+'" y="'+(H-6)+'" text-anchor="end" font-size="10" fill="var(--ink-2)">الآن</text></svg>'+
+      '<div class="legend"><span><i class="sw-line"></i>رطوبة التربة</span><span><i class="sw-band"></i>المدى المناسب '+L(sp.m[0]+'–'+sp.m[1]+'%')+'</span></div></div>';
+  }
+
+  function nextWater(p){
+    var sp=SPECIES[p.species],m=p.moisture;
+    if(m<=sp.m[0])return 'الآن';
+    var rate=(p.hist[0]-p.hist[p.hist.length-1])/(p.hist.length-1);
+    if(rate<0.15)rate=0.15;
+    var h=(m-sp.m[0])/rate;
+    if(h>96)return 'بعد أكثر من 4 أيام';
+    return 'بعد نحو '+dur(h);
+  }
+
+  function statusPill(is){var lv=level(is);return '<span class="pill '+(lv==='ok'?'':lv)+'">'+(is.length?esc(is[0].short):'بخير')+'</span>'}
+
+  var views={};
+  views.home=function(){
+    var p=current();
+    if(!p)return top()+'<div class="card empty">'+icon('leaf')+'<h3>أضف أول نبات</h3><p>اربط جهاز نما بنبتتك وابدأ بمتابعة الرطوبة والحرارة والإضاءة.</p><button class="btn" data-action="openAdd">'+icon('plus')+'إضافة نبات</button></div>';
+    var is=issues(p),lv=level(is);
+    var chips=S.plants.map(function(q){
+      var l2=level(issues(q));
+      return '<button class="chip" data-action="select" data-arg="'+q.id+'" aria-pressed="'+(q.id===p.id)+'"><i class="dot s-'+l2+'"></i>'+esc(q.name)+'</button>';
+    }).join('');
+    var banner;
+    if(!is.length){
+      banner='<div class="banner"><div class="ic">'+icon('leaf')+'</div><div class="tx"><strong>نباتك بخير</strong><span class="d">'+esc(p.name)+' ضمن المدى المناسب في الرطوبة والحرارة والإضاءة.</span></div></div>';
+    }else{
+      banner='<div class="banner '+lv+'"><div class="ic">'+icon('alert')+'</div><div class="tx"><strong>'+esc(is[0].title)+'</strong><span class="d">'+is[0].body+'</span></div>'+(is[0].action==='water'?'<button class="btn sm" data-action="water" data-arg="'+p.id+'">سجّل الري</button>':'')+'</div>';
+    }
+    return top()+
+      '<div><h1>'+esc(p.name)+'</h1><p class="sub">'+esc(SPECIES[p.species].name)+' · '+esc(p.place)+'</p></div>'+
+      '<div class="chips" role="group" aria-label="اختيار النبات">'+chips+'</div>'+banner+reading(p)+chart(p)+
+      '<div class="card facts"><div class="fact"><span>آخر ري</span><b>'+ago(p.lastWaterAt)+'</b></div><div class="fact"><span>الري القادم</span><b>'+nextWater(p)+'</b></div><div class="fact"><span>الموقع</span><b>'+esc(p.place)+'</b></div>'+
+      '<div style="margin-top:10px"><button class="btn block" data-action="water" data-arg="'+p.id+'">'+icon('drop')+'سجّل الري الآن</button></div></div>'+
+      '<p class="note">القراءات في هذا النموذج تجريبية من جهاز نما افتراضي.</p>';
+  };
+  function top(){return '<header class="top"><div class="brand">'+LOGO+'<span>نما</span></div><span class="live"><i></i>الجهاز متصل</span></header>'}
+
+  views.plants=function(){
+    var cards=S.plants.map(function(p){
+      var is=issues(p),sp=SPECIES[p.species];
+      var rm=UI.removing===p.id;
+      return '<article class="card plant"><div class="row-head"><h3>'+esc(p.name)+'</h3>'+statusPill(is)+'</div>'+
+        '<div class="meta">'+esc(sp.name)+' · '+esc(p.place)+'</div>'+
+        '<div class="nums"><span>رطوبة '+L(Math.round(p.moisture)+'%')+'</span><span>حرارة '+temp(p.temp)+'</span><span>إضاءة '+lightLabel(p.light)+'</span></div>'+
+        '<div class="acts"><button class="btn sm" data-action="select" data-arg="'+p.id+'">عرض التفاصيل</button>'+
+        (rm?'<button class="btn sm danger" data-action="remove" data-arg="'+p.id+'">تأكيد الإزالة</button><button class="btn sm ghost" data-action="cancelRemove">تراجع</button>':'<button class="btn sm ghost" data-action="remove" data-arg="'+p.id+'">إزالة</button>')+
+        '</div></article>';
+    }).join('');
+    return '<div class="row-head"><div><h1>نباتاتي</h1><p class="sub">'+plural(S.plants.length,'نبات واحد','نباتان','نباتات','نباتاً')+' تحت المتابعة</p></div><button class="btn sm" data-action="openAdd">'+icon('plus')+'إضافة</button></div>'+
+      (cards||'<div class="card empty">'+icon('leaf')+'<h3>لا توجد نباتات</h3><p>أضف نبتتك الأولى لتبدأ المتابعة.</p></div>');
+  };
+
+  views.alerts=function(){
+    var al=activeAlerts();
+    var list=al.map(function(a){
+      var p=a.plant,x=a.issue;
+      return '<article class="card alert"><div class="ic k'+x.kind+'">'+icon(x.kind==='water'?'drop':x.kind==='temp'?'thermo':'sun')+'</div><div class="tx"><h3>'+esc(x.title)+'</h3><p>'+x.body+'</p><div class="acts">'+
+        (x.action==='water'?'<button class="btn sm" data-action="water" data-arg="'+p.id+'">تم الري</button>':'')+
+        '<button class="btn sm ghost" data-action="select" data-arg="'+p.id+'">عرض النبات</button>'+
+        '<button class="btn sm ghost" data-action="dismiss" data-arg="'+a.key+'">تجاهل</button></div></div></article>';
+    }).join('');
+    var empty='<div class="card empty">'+icon('leaf')+'<h3>كل نباتاتك بخير</h3><p>سننبهك فور احتياج أي نبتة إلى ري أو ظل أو إضاءة.</p></div>';
+    var log=S.log.slice(0,8).map(function(e){return '<li><span>'+esc(e.text)+'</span><time>'+ago(e.at)+'</time></li>'}).join('');
+    return '<div><h1>التنبيهات</h1><p class="sub">'+(al.length?plural(al.length,'تنبيه واحد','تنبيهان','تنبيهات','تنبيهاً')+' يحتاج انتباهك':'لا توجد تنبيهات الآن')+'</p></div>'+
+      (list||empty)+
+      '<div class="card"><h2 class="sec" style="margin-bottom:6px">سجل العناية</h2>'+(log?'<ul class="log">'+log+'</ul>':'<p class="sub">لم تسجّل أي ري بعد.</p>')+'</div>';
+  };
+
+  function sw(kind,label,desc){
+    return '<div class="set-row"><div class="t"><b>'+label+'</b><span>'+desc+'</span></div><button class="switch" role="switch" aria-label="'+label+'" aria-checked="'+S.settings.alerts[kind]+'" data-action="toggle" data-arg="'+kind+'"></button></div>';
+  }
+  views.settings=function(){
+    var u=S.settings.unit;
+    return '<div><h1>الإعدادات</h1><p class="sub">تحكم في التنبيهات وطريقة العرض</p></div>'+
+      '<div class="card"><h2 class="sec" style="margin-bottom:4px">جهاز نما</h2>'+
+        '<div class="set-row"><div class="t"><b>الحالة</b><span>متصل بالواي فاي · آخر مزامنة قبل لحظات</span></div><span class="pill">متصل</span></div>'+
+        '<div class="set-row"><div class="t"><b>بطارية الجهاز</b><span>تكفي لأسابيع حسب فاصل القراءة</span></div><div style="display:flex;align-items:center;gap:8px"><div class="bar"><i style="width:82%"></i></div>'+L('82%')+'</div></div></div>'+
+      '<div class="card"><h2 class="sec" style="margin-bottom:4px">التنبيهات</h2>'+
+        sw('water','تنبيهات الري','عند جفاف التربة أو زيادة الماء')+
+        sw('temp','تنبيهات الحرارة','عند ارتفاع الحرارة أو انخفاضها')+
+        sw('light','تنبيهات الإضاءة','عند ضعف الضوء أو قوته')+'</div>'+
+      '<div class="card"><h2 class="sec" style="margin-bottom:4px">العرض</h2>'+
+        '<div class="set-row"><div class="t"><b>وحدة الحرارة</b><span>تنطبق على كل الشاشات</span></div><div class="seg"><button data-action="unit" data-arg="c" aria-pressed="'+(u==='c')+'">مئوي</button><button data-action="unit" data-arg="f" aria-pressed="'+(u==='f')+'">فهرنهايت</button></div></div></div>'+
+      '<div class="card"><h2 class="sec" style="margin-bottom:4px">البيانات التجريبية</h2><p class="sub" style="margin-bottom:10px">النباتات والقراءات هنا أمثلة لتجربة التطبيق. يمكنك إعادتها إلى حالتها الأولى.</p>'+
+        (UI.resetting?'<div style="display:flex;gap:8px"><button class="btn sm danger" data-action="reset">تأكيد إعادة الضبط</button><button class="btn sm ghost" data-action="cancelReset">تراجع</button></div>':'<button class="btn sm ghost" data-action="reset">إعادة ضبط النباتات</button>')+'</div>'+
+      '<p class="note">نما · الإصدار التجريبي</p>';
+  };
+
+  function render(){
+    var sc=$('#screen'),top0=sc.scrollTop,ch=sc.querySelector('.chips'),cl=ch?ch.scrollLeft:0;
+    var ae=document.activeElement,fk=null;
+    if(ae&&ae.dataset&&ae.dataset.action)fk=ae.dataset.action+':'+(ae.dataset.arg||'');
+    sc.innerHTML=views[S.tab]();
+    sc.scrollTop=top0;
+    var ch2=sc.querySelector('.chips');if(ch2)ch2.scrollLeft=cl;
+    var n=activeAlerts().length;
+    var T=[['home','الرئيسية','home'],['plants','نباتاتي','plants'],['alerts','التنبيهات','bell'],['settings','الإعدادات','set']];
+    $('#tabs').innerHTML=T.map(function(t){
+      return '<button class="tab" data-action="tab" data-arg="'+t[0]+'"'+(S.tab===t[0]?' aria-current="page"':'')+'>'+icon(t[2])+'<span>'+t[1]+'</span>'+(t[0]==='alerts'&&n?'<span class="badge" aria-label="'+n+' تنبيهات">'+n+'</span>':'')+'</button>';
+    }).join('');
+    if(fk){var parts=fk.split(':');var el=document.querySelector('[data-action="'+parts[0]+'"][data-arg="'+(parts.slice(1).join(':'))+'"]');if(el)el.focus()}
+  }
+
+  var tt;
+  function toast(msg){var t=$('#toast');t.textContent=msg;t.hidden=false;clearTimeout(tt);tt=setTimeout(function(){t.hidden=true},2400)}
+
+  function water(id){
+    var p=S.plants.filter(function(q){return q.id===id})[0];if(!p)return;
+    var sp=SPECIES[p.species];
+    p.moisture=Math.min(88,Math.round((sp.m[0]+sp.m[1])/2+8));
+    p.hist.shift();p.hist.push(p.moisture);
+    p.lastWaterAt=Date.now();
+    S.log.unshift({text:'تم ري '+p.name,at:p.lastWaterAt});
+    S.log=S.log.slice(0,30);
+    save();render();toast('تم تسجيل ري '+p.name);
+  }
+
+  function openAdd(){
+    $('#f-name').value='';$('#f-place').value='';$('#f-err').textContent='';
+    $('#f-species').selectedIndex=0;hint();
+    $('#sheet').hidden=false;$('#f-name').focus();
+  }
+  function closeAdd(){$('#sheet').hidden=true}
+  function hint(){
+    var sp=SPECIES[$('#f-species').value];
+    $('#f-hint').innerHTML='المناسب لـ'+sp.name+': رطوبة '+L(sp.m[0]+'–'+sp.m[1]+'%')+' · حرارة '+temp(sp.t[0])+' – '+temp(sp.t[1])+' · إضاءة '+lightLabel(sp.l[0])+' إلى '+lightLabel(sp.l[1]);
+  }
+
+  document.addEventListener('click',function(e){
+    var b=e.target.closest('[data-action]');if(!b)return;
+    var a=b.dataset.action,arg=b.dataset.arg;
+    if(a==='tab'){S.tab=arg;UI.removing=null;UI.resetting=false;save();render();$('#screen').scrollTop=0}
+    else if(a==='select'){S.selected=arg;S.tab='home';save();render();$('#screen').scrollTop=0}
+    else if(a==='water')water(arg);
+    else if(a==='dismiss'){S.dismissed[arg]=true;save();render()}
+    else if(a==='toggle'){S.settings.alerts[arg]=!S.settings.alerts[arg];save();render()}
+    else if(a==='unit'){S.settings.unit=arg;save();render()}
+    else if(a==='openAdd')openAdd();
+    else if(a==='closeAdd')closeAdd();
+    else if(a==='remove'){
+      if(UI.removing===arg){
+        S.plants=S.plants.filter(function(p){return p.id!==arg});
+        if(S.selected===arg)S.selected=S.plants[0]?S.plants[0].id:null;
+        UI.removing=null;save();render();toast('تمت إزالة النبات');
+      }else{UI.removing=arg;render()}
+    }
+    else if(a==='cancelRemove'){UI.removing=null;render()}
+    else if(a==='reset'){
+      if(UI.resetting){var tab=S.tab,unit=S.settings.unit;S=seedState();S.tab=tab;S.settings.unit=unit;UI.resetting=false;save();render();toast('أُعيدت النباتات التجريبية')}
+      else{UI.resetting=true;render()}
+    }
+    else if(a==='cancelReset'){UI.resetting=false;render()}
+  });
+
+  $('#sheet').addEventListener('click',function(e){if(e.target===this)closeAdd()});
+  document.addEventListener('keydown',function(e){if(e.key==='Escape'&&!$('#sheet').hidden)closeAdd()});
+  $('#f-species').addEventListener('change',hint);
+  $('#addForm').addEventListener('submit',function(e){
+    e.preventDefault();
+    var name=$('#f-name').value.trim();
+    if(!name){$('#f-err').textContent='اكتب اسماً للنبات.';$('#f-name').focus();return}
+    var key=$('#f-species').value,sp=SPECIES[key],r=Math.random;
+    var m=Math.round((sp.m[0]+sp.m[1])/2+(r()-.5)*6);
+    var p={id:'p'+Date.now(),name:name,species:key,place:$('#f-place').value.trim()||'غير محدد',
+      moisture:m,temp:Math.round((sp.t[0]+sp.t[1])/2),light:Math.round((sp.l[0]+sp.l[1])/2),
+      lastWaterAt:Date.now(),hist:makeHist(m,Math.floor(r()*1000))};
+    S.plants.push(p);S.selected=p.id;S.tab='home';
+    save();closeAdd();render();toast('تمت إضافة '+name);
+  });
+
+  var sel=$('#f-species');
+  Object.keys(SPECIES).forEach(function(k){var o=document.createElement('option');o.value=k;o.textContent=SPECIES[k].name;sel.appendChild(o)});
+
+  setInterval(function(){
+    S.plants.forEach(function(p){
+      var sp=SPECIES[p.species];
+      p.moisture=clamp(p.moisture+(Math.random()-.5)*.5,2,98);
+      p.temp=clamp(p.temp+(Math.random()-.5)*.4,5,48);
+      p.light=clamp(p.light+(Math.random()-.5)*3,0,100);
+      p.hist[p.hist.length-1]=p.moisture;
+    });
+    save();
+    if($('#sheet').hidden&&S.tab!=='settings')render();
+  },6000);
+
+  render();
+})();
+</script>
+</body>
+</html>
+
+</body></html>
